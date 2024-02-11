@@ -1,0 +1,42 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class LinkShortener {
+
+    private static Map<String, String> urlMap = new HashMap<>();
+    private static int counter = 1;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            while (true) {
+                System.out.print("Enter a long URL (or 'exit' to quit): ");
+                String longUrl = sc.nextLine();
+
+                if ("exit".equalsIgnoreCase(longUrl)) {
+                    break;
+                }
+
+                String shortUrl = shortenUrl(longUrl);
+                System.out.println("Shortened URL: " + shortUrl);
+            }
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+
+    private static String shortenUrl(String longUrl) {
+        if (longUrl == null || longUrl.isEmpty()) {
+            throw new IllegalArgumentException("Long URL cannot be empty.");
+        }
+
+        String shortUrl = "http://short.url/" + counter++;
+        urlMap.put(shortUrl, longUrl);
+        return shortUrl;
+    }
+}
+
